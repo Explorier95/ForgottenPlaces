@@ -16,16 +16,10 @@ def get_place_list(request):
                                                          'Places': places, })
 
 #geht noch nicht steht im Konflikt zu places_details es fehlt noch eine Abfrage...
-def place_delete(request, id=None):
-    place = get_object_or_404(Places, pk=id)
-    context = {'post': place}
-
-    if request.method == 'GET':
-        return render(request, 'place_details/post_confirm_delete.html', context)
-    elif request.method == 'POST':
-        place.delete()
-        messages.success(request, 'The post has been deleted successfully.')
-        return redirect('place_list')
+def place_delete(request, pk=None):
+    place = Places.objects.get(pk=pk)
+    place.delete()
+    return HttpResponseRedirect(reverse('place_list'))
 
 
 def place_details(request, pk=None):
