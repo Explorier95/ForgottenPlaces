@@ -1,18 +1,15 @@
 {% extends 'Forgotten/base.html' %}
 {% load bootstrap5 %}
 
-
-
 {% block content %}
     <form action="" enctype="multipart/form-data" method="POST" class="form-row">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'place_list' %}" class="btn btn-secondary btn-lg">Zurück</a>
-                <button type="submit" class="btn btn-primary btn-lg float-end float-end">Bestätigen</button>
-            </li>
-        </ul>
-
-    </form>
+    {% bootstrap_form form %}
+    {% csrf_token %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{% url 'place_list' %}" class="btn btn-secondary btn-lg">Zurück</a>
+            <button type="submit" class="btn btn-primary btn-lg float-end float-end">Bestätigen</button>
+        </li>
+    </ul>
 {% endblock %}
+</form>

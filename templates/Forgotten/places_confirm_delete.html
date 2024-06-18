@@ -1,0 +1,18 @@
+{% extends 'Forgotten/base.html' %}
+{% load bootstrap5 %}
+
+{%block content%}
+<div class="center">
+	<form method="post" class="card">
+        {% bootstrap_form form %}
+		{% csrf_token %}
+		<h2>Löschen</h2>
+		<p>Bist du sicher, dass du den "{{place}}", löschen möchtest??</p>
+		<p class="form-buttons">
+			<input type="submit" class="btn btn-primary" value="Löschen">
+			<a href="{% url 'place_list'%}" class="btn btn-outline">Abbrechen</a>
+		</p>
+	</form>
+</div>
+
+{%endblock content%}
