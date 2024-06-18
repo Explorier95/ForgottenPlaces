@@ -3,6 +3,7 @@
 {% block content %}
     {% for place in Places %}
         <ul class="list-group ms-5">
+            <li>PK: {{ place.pk }}</li>
 
             <h2 class="bg-secondary me-5 text-white text-center">{{ place.name }}</h2>
             <li class="list-group-item me-5 reverse"><p> Geschichte: </p>{{ place.story_field }}</li>
@@ -11,7 +12,9 @@
                     alt="img"></li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
             <li class="list-group-item me-5 bg-light text-dark"><a href="{% url 'edit_place' pk=place.id %}"
-                                                                   class="btn btn-primary btn-sm">Bearbeiten</a></li>
+                                                                   class="btn btn-primary btn-sm">Bearbeiten</a> <a
+                    href="place_delete/{{ place.pk }}" class="btn btn-danger btn-sm float-end">Löschen</a>
+            </li>
 
         </ul>
 
