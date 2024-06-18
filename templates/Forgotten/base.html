@@ -1,19 +1,26 @@
 {% load bootstrap5 %}
 <!DOCTYPE html>
-
+{% load static %}
+{% bootstrap_messages %}
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>{{page_title}}</title>
+    <title>{{ page_title }}</title>
+    <link rel=icon href={% static '/icons/favicon.ico' %}>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
 
 
-
 <body>
-{% bootstrap_messages %}
+{% if messages %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
+{% block div %}
+{% endblock %}
+</div>
 
 <h1 class="text-center mb-5 bg-secondary text-white">{{ page_title }}</h1>
 
