@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from Forgotten.views import get_place_list, place_details, PlaceDelete  # place_delete
@@ -22,6 +22,8 @@ from Forgotten.views import get_place_list, place_details, PlaceDelete  # place_
 urlpatterns = [
 
                   path('admin/', admin.site.urls),
+                  path('members/', include('members.urls')),
+                  path('members/', include('django.contrib.auth.urls')),
                   path('places/', get_place_list, name='place_list'),
                   path('places/add/', place_details, name='add_places'),
                   path('places/edit/<int:pk>', place_details, name='edit_place'),

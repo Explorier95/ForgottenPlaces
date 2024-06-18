@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic.edit import DeleteView, UpdateView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse_lazy
 from django.urls import reverse
 from Forgotten.models import *
@@ -10,19 +10,23 @@ from .models import Places
 
 
 # Create your views here.
-#gibt die List-Elemente aus
+
+
+# gibt die List-Elemente aus
 def get_place_list(request):
     places = Places.objects.all().order_by('name')
 
     return render(request, 'Forgotten/place_list.html', {'page_title': 'Meine Orte',
                                                          'Places': places, })
-#Funktion zum direkten Löschen von List-Elementen
+
+
+# Funktion zum direkten Löschen von List-Elementen
 # def place_delete(request, pk=None):
 #     place = Places.objects.get(pk=pk)
 #     place.delete()
 #     return HttpResponseRedirect(reverse('place_list'))
 
-#Funktion zum Speichern von neuen List-Elementen
+# Funktion zum Speichern von neuen List-Elementen
 def place_details(request, pk=None):
     if pk:
         places = Places.objects.get(pk=pk)
@@ -40,8 +44,9 @@ def place_details(request, pk=None):
     else:
         form = PlacesForm(instance=places)
 
-    return render(request, 'Forgotten/place_details.html', {'page_title': 'Orte hinzufügen',
+    return render(request, 'Forgotten/place_details.html', {'page_title': 'Hinzufügen und Bearbeiten',
                                                             'form': form})
+
 
 class PlaceDelete(DeleteView):
     model = Places
