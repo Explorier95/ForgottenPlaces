@@ -2,14 +2,20 @@
 {% load bootstrap5 %}
 
 {% block content %}
-    <h>Wilkommen auf Forgotten Places</h>
     <form action="" enctype="multipart/form-data" method="POST" class="form-row">
     {% csrf_token %}
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Einloggen</a>
-            <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">Account erstellen</a>
-        </li>
-    </ul>
+    {% if user.is_authenticated %}
+           <h2>Wilkommen {{ request.user.username }}.</h2>
+    {% else %}
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Einloggen</a>
+                <a href="{% url 'register' %}" class="btn btn-secondary btn-lg">Account erstellen</a>
+            </li>
+        </ul>
+    {% endif %}
+    <div class="fieldBox" id="show_teaser_pc"></div>
+    {#    <div class="fieldBox" id="show_teaser_mobile"> </div>#}
+
 {% endblock %}
 </form>
