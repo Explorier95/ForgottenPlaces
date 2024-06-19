@@ -9,3 +9,5 @@ Django, Geodjango*, Bootstrap5
 
 **für zukünftiges Update
 
+Projekt von Alissa Baumeister und Fabian Tappendorf
+
