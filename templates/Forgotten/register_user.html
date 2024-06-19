@@ -1,0 +1,18 @@
+{% extends 'Forgotten/base.html' %}
+
+
+{% block content %}
+    {% if form.errors %}
+<p>Es gab einen Fehler bei der Registrierung</p>
+    {% endif %}
+    <h1>Registrierung</h1>
+    <br></br>
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <br></br>
+<input type="submit" class="btn btn-primary">
+    </form>
+
+
+{% endblock content %}
