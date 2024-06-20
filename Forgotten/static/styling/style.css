@@ -27,3 +27,30 @@
 /*        visibility: visible;*/
 /*    }*/
 /*}*/
+
+#menu {
+    position: absolute;
+    background: lightgrey;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+
+}
+
+#map {
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 80px);
+}
+
+.navbar {
+    position: relative;
+    z-index: 1000;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}

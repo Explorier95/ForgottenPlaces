@@ -1,4 +1,5 @@
 {% load bootstrap5 %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
     <title>{{ page_title }}</title>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-
+    <link rel="stylesheet" href="{% static 'styling/style.css' %}">
     <style>
         body { margin: 0; padding: 0; }
         #map { position: absolute; top: 80px; bottom: 0; width: 100%; height: calc(100% - 80px); }
@@ -57,6 +58,13 @@
 <h1 class="text-center mb-5 bg-secondary text-white background">{{ page_title }}</h1>
   <div id='map' style='width: 100%; height: 80%;'></div>
 
+<div id="menu">
+    <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" checked="checked">
+    <label for="satellite-streets-v12">satellite streets</label>
+    <input id="streets-v12" type="radio" name="rtoggle" value="streets">
+    <label for="streets-v12">streets</label>
+</div>
+
 {% block content %}
 
     {% load static %}
@@ -76,11 +84,28 @@
 
 
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWxpc3NhamIiLCJhIjoiY2x4bXpqYW5tMGRobTJpczY1ZmNzaTFlbSJ9.cGqpPHYr4ezHEYYkKxtAeA';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11'
-  });
+    
+document.addEventListener('DOMContentLoaded', function() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWxpc3NhamIiLCJhIjoiY2x4bXpqYW5tMGRobTJpczY1ZmNzaTFlbSJ9.cGqpPHYr4ezHEYYkKxtAeA';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        // style: 'mapbox://styles/mapbox/satellite-streets-v10' satellite view
+        center: [13.40, 52.52], //Longitude & Latitude
+        zoom: 6,
+    });
+
+    const layerList = document.getElementById('menu');
+    const inputs = layerList.getElementsByTagName('input');
+
+    for (const input of inputs) {
+        input.onclick = (layer) => {
+            const layerId = layer.target.id;
+            map.setStyle('mapbox://styles/mapbox/' + layerId);
+        };
+    }
+});
+
 </script>
 
 
