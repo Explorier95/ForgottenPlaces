@@ -22,6 +22,8 @@ from Forgotten.views import get_place_list, place_details, PlaceDelete, get_firs
 from Forgotten.forms import UserLoginForm
 from django.contrib.auth import views
 from django.contrib.auth.views import LogoutView
+from django.conf.urls import include
+from Forgotten.views import MapView
 
 urlpatterns = [
                   path('', get_first_view, name='welcome'),
@@ -41,8 +43,9 @@ urlpatterns = [
                       ),
                       name='login'),
                   path('logout/', logout_view, name='logout'),
-                  path('regist/', register_user, name='register')
+                  path('regist/', register_user, name='register'),
 
+                  path('map/', MapView.as_view(), name='map'),
                   # Wenn Update benötigt wird ...
                   # path('place/update/<int:pk>/', PlaceUpdate.as_view(), name='place-update'),
                   # URL zum direkten löschen
