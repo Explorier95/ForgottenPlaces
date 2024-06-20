@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.views.generic import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.http import HttpResponseRedirect, FileResponse
 from django.contrib.auth import logout, login, authenticate
@@ -97,3 +98,17 @@ class PlaceDelete(DeleteView):
     #     def form_valid(self, form):
     #         messages.success(self.request, "Der Ort wurde erfolgreich aktualisiert.")
     #         return super(PlaceUpdate, self).form_valid(form)
+
+
+# Class for the Map view
+class MapView(TemplateView):
+    template_name = 'Forgotten/map.html'
+
+    # function to show the map in the browser
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_access_token'] = 'pk.my_mapbox_access_token'
+        return context
+
+    def map_view(request):
+        return render(request, 'map.html')
