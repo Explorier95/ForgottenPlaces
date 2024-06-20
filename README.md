@@ -4,7 +4,7 @@ Es steht hier zum Beispiel schon ein neues Gebäude aber früher gab es hier ein
 Die App soll Leuten die Interesse an Geschichte haben eine Möglichkeit geben sich über die Geschichte ihrer unmittelbaren Umgebung zu informieren und kennen zu lernen.
 
 Genutzte Technologien:
-Django, Geodjango*, Bootstrap5
+Django, Geodjango*, Bootstrap5, SQL-lite, MySQL*, OpenMaps, MapBox
 
 
 Projekt von Alissa Baumeister und Fabian Tappendorf
