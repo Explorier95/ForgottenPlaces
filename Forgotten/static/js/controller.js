@@ -24,3 +24,19 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 });
+
+
+var places = document.getElementById('places');
+//function that sets a marker on the map for a specific coordinate (longitude/latitude)
+Array.prototype.forEach.call(places, (pl) => {
+    var name = pl.getAttribute('name');
+    var longitude = parseFloat(pl.getAttribute('longitude'));
+    var latitude = parseFloat(pl.getAttribute('latitude'));
+
+    var marker = new mapboxgl.Marker()
+        .setLngLat([longitude, latitude])
+        .setPopup(new mapboxgl.Popup().setText(name)).addTo(map);
+    });
+
+
+
