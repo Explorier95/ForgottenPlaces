@@ -11,6 +11,8 @@ from django.urls import reverse
 from Forgotten.models import *
 from Forgotten.forms import *
 from .models import Places
+import json
+import requests
 
 
 # gibt die List-Elemente aus
@@ -111,4 +113,33 @@ class MapView(TemplateView):
         return context
 
     def map_view(request):
+        places = Places.objects.all()
         return render(request, 'map.html')
+                   #   {'places:' places})
+
+"""
+class for geocoding 
+the main function of this class is to return latitude and longitude from city names
+it uses the mapbox geocoding api 
+"""
+class Geocoding:
+    def __init__(self, lat, lon):
+        self.api_key = 'pk.eyJ1IjoiYWxpc3NhamIiLCJhIjoiY2x4bXpqYW5tMGRobTJpczY1ZmNzaTFlbSJ9.cGqpPHYr4ezHEYYkKxtAeA'
+
+    #function for returning coordinates
+    def get_coordinates(self, city):
+        city = Places.objects.get(name=city)
+        url = f'https://api.mapbox.com/geocoding/v5/mapbox.places/{city}.json'
+        params = {
+            'access_token': self.api_key,
+            'limit': 1
+        }
+
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        if 'features' in data and len(data['features'])> 0:
+            coordinates = data['features'][0]['geometry']['coordinates']
+            return coordinates
+        else:
+            return None
