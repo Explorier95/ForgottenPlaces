@@ -10,8 +10,11 @@
                     src="{{ place.upload_picture.url }}" width="500px"
                     alt="img"></li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
-            <li class="list-group-item me-5 bg-light text-dark"><a href="{% url 'edit_place' pk=place.id %}"
-                                                                   class="btn btn-primary">Bearbeiten</a>
+            <li class="list-group-item me-5 bg-light text-dark">
+                <a href="{% url 'map' %}" class="btn btn-success float-end btn-sm">Auf Karte anzeigen</a>
+            </li>
+            <li class="list-group-item me-5 bg-light text-dark">
+                <a href="{% url 'edit_place' pk=place.id %}" class="btn btn-primary">Bearbeiten</a>
                 <a href="{% url 'place-delete' place.pk %}"><i class="btn btn-danger float-end">Löschen</i> </a>
 
             </li>

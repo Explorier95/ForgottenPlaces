@@ -26,12 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-var places = document.getElementById('places');
+var places = document.querySelector('.place-item');
 //function that sets a marker on the map for a specific coordinate (longitude/latitude)
-Array.prototype.forEach.call(places, (pl) => {
+//Array.prototype.forEach.call(places, (pl) => {
+places.forEach(function(pl) {
     var name = pl.getAttribute('name');
-    var longitude = parseFloat(pl.getAttribute('longitude'));
-    var latitude = parseFloat(pl.getAttribute('latitude'));
+    var longitude = parseFloat(pl.getAttribute('lon'));
+    var latitude = parseFloat(pl.getAttribute('lat'));
 
     var marker = new mapboxgl.Marker()
         .setLngLat([longitude, latitude])
