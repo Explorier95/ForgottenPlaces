@@ -20,9 +20,17 @@
             </li>
 
         </ul>
-
-    {% endfor %}
-    <div class="list-group text-center ms-5 me-5">
+        
+        
+        <!-- Hiding elements for javascript and getting markers on the map -->
+                <div class="place-item" 
+                    data-name="{{ place.name }}" 
+                    data-lon="{{ place.longitude }}" 
+                    data-lat="{{ place.latitude }}" 
+                    style="display:none;">
+                </div>
+            {% endfor %}
+        <div class="list-group text-center ms-5 me-5">
         <a class="btn btn-primary" href="{% url 'add_places' %}" class="btn btn-primary">Ort hinzufügen </a>
     </div>
 {% endblock %}

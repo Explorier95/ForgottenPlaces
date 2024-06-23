@@ -21,11 +21,14 @@ class Places(models.Model):
     story_field = models.TextField(blank=True)
     upload_picture = models.ImageField(upload_to='media/')
     location_map = models.CharField(max_length=40)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     #for displaying on the map:
     #longitude = models.FloatField()
     #latitude = models.FloatField()
     #TODO: Methode um von Stadtnamen auf longitude + latitude zu kommen
+
 
 
     def __str__(self):

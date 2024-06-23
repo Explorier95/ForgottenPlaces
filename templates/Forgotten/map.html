@@ -74,19 +74,20 @@
         <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
     {% endfor %}
 
-{% endblock %}
-
+    {% for place in places %}
+        <div class="place-item"
+            data-name="{{ place.name }}"
+            data-lon="{{ place.longitude }}"
+            data-lat="{{ place.latitude }}">
+        </div>
+    {% endfor %}
+    
+{% endblock %}   
 {% block footer %}
-
-
 {% endblock %}
-
-
 
 <script>
-
 </script>
-
 
 </body>
 </html>
