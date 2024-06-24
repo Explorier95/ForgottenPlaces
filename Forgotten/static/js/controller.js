@@ -5,6 +5,7 @@
 * */
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("JS geladen ");
     fetch('/static/js/token.json')
         .then(response => response.json())
         .then(config => {
