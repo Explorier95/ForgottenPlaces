@@ -1,4 +1,6 @@
 {% extends 'Forgotten/base.html' %}
+{% load static %}
+
 
 {% block content %}
     {% for place in Places %}
@@ -11,7 +13,7 @@
                     alt="img"></li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
             <li class="list-group-item me-5 bg-light text-dark">
-                <a href="{% url 'map' %}" class="btn btn-success float-end btn-sm">Auf Karte anzeigen</a>
+                <a href="{% url 'map' %}" onclick="zoomToMarker({{ place.longitude }}, {{ place.latitude }})" class="btn btn-success float-end btn-sm">Auf Karte anzeigen</a>
             </li>
             <li class="list-group-item me-5 bg-light text-dark">
                 <a href="{% url 'edit_place' pk=place.id %}" class="btn btn-primary">Bearbeiten</a>
