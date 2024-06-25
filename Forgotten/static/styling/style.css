@@ -25,7 +25,19 @@
 /*    #show_teaser_mobile{*/
 /*        visibility: visible;*/
 /*    }*/
-/*}*/
+/*}
+
+
+img{
+        width: 100%;
+    }
+
+.fieldBox {
+    max-width: 100%;
+}
+
+*/
+
 
 #menu {
     position: absolute;
