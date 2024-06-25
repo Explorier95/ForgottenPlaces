@@ -12,7 +12,6 @@ it uses the mapbox geocoding api
 
 #TODO: security key noch in den token.json --> sichrheit !!! wichtig dann methode noch so dass es funktioniert
 # TODO: viewonmap button, marker müssen noch funzen, grüner button bei location, farben css
-#TODO: bei map noch oben menü aktivieren
 
 class Geocoding:
 
@@ -123,3 +122,26 @@ def update_coordinates_for_all_places():
 
 
 update_coordinates_for_all_places()
+
+
+def calculate_and_save_coordinates(places):
+    places_with_coordinates = []
+
+    for place in places:
+        if place.location_map:
+            lat, lon = get_coordinates(place.location_map)
+            if lat and lon:
+                place.latitude = lat
+                place.longitude = lon
+                place.save()
+                places_with_coordinates.append({
+                    'id': place.id,
+                    'name': place.name,
+                    'latitude': lat,
+                    'longitude': lon
+                })
+            else:
+                print(f"Koordinaten nicht gefunden für: {place.location_map}")
+
+    with open('places_coordinates.json', 'w') as f:
+        json.dump(places_with_coordinates, f, indent=4)
