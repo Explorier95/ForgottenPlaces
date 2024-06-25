@@ -64,17 +64,12 @@ function initializeMap() {
 
 //show element on map via zoom in when element is clicked in list
 function zoomToMarker(longitude, latitude) {
-    if (map) {
+    document.getElementById("flyButton").addEventListener('click', () => {
         console.log("fly me to the moon");
         map.flyTo({
-
             center: [longitude, latitude],
             zoom: 25,
             essential: true
-
         });
-
-    } else {
-        console.log("Map noch nicht initialisiert.");
-    }
+    });
 }
