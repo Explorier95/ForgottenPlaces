@@ -1,10 +1,9 @@
 {% extends 'Forgotten/base.html' %}
 {% load static %}
 
-
 {% block content %}
     {% for place in Places %}
-        <ul class="list-group ms-5">
+        <ul class="list-group ms-5" id="place-{{ place.id }}">
 
             <h2 class="bg-secondary me-5 text-white text-center">{{ place.name }}</h2>
             <li class="list-group-item me-5 reverse"><p> Geschichte: </p>{{ place.story_field }}</li>
@@ -25,12 +24,17 @@
         
         
         <!-- Hiding elements for javascript and getting markers on the map -->
+                <div id="mapContainer" style="display: none;">
+                    <div id="map"></div>
+                </div>
+        
                 <div class="place-item" 
                     data-name="{{ place.name }}" 
                     data-lon="{{ place.longitude }}" 
                     data-lat="{{ place.latitude }}" 
                     style="display:none;">
                 </div>
+        
             {% endfor %}
         <div class="list-group text-center ms-5 me-5">
         <a class="btn btn-primary" href="{% url 'add_places' %}" class="btn btn-primary">Ort hinzufügen </a>

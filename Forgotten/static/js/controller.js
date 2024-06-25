@@ -4,6 +4,7 @@
 *
 * */
 var map;
+var markers = [];
 
 // mapboxgl item initializing after dom loading
 document.addEventListener('DOMContentLoaded', function() {
@@ -47,6 +48,7 @@ function initializeMap() {
             var name = pl.getAttribute('data-name');
             var longitude = parseFloat(pl.getAttribute('data-lon'));
             var latitude = parseFloat(pl.getAttribute('data-lat'));
+            var placeId = pl.getAttribute('id');
 
             console.log('Marker hinzufügen für:', name, longitude, latitude);
 
@@ -55,21 +57,54 @@ function initializeMap() {
                     .setLngLat([longitude, latitude])
                     .setPopup(new mapboxgl.Popup().setText(name))
                     .addTo(map);
+
+                //add to array
+                markers.push({ marker: marker, placeId: placeId });
+
+                marker.getElement().addEventListener('click', function ()  {
+                    console.log("marker clicked: ", marker);
+                    localStorage.setItem('scrollToPlaceId', placeId);
+                    window.location.href = '/places/';
+
+                });
             }
         });
     } else {
         console.log("Keine Orte gefunden :(");
     }
+function showToast(name) {
+    // toast dialoge fürs debuugging
+    alert('Marker geklickt: ' + name);
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    var placeId = localStorage.getItem('scrollToPlaceId');
+    if (placeId) {
+        setTimeout(function() {
+            var element = document.getElementById(placeId);
+            if (element) {
+                element.scrollIntoView({behavior: 'smooth', block: 'end'});
+                // Clear the stored place ID after scrolling
+                localStorage.removeItem('scrollToPlaceId');
+            }
+        }, 1000);
+    }
+});
+
+
+
+
 //show element on map via zoom in when element is clicked in list
-function zoomToMarker(longitude, latitude) {
-    document.getElementById("flyButton").addEventListener('click', () => {
-        console.log("fly me to the moon");
-        map.flyTo({
-            center: [longitude, latitude],
-            zoom: 25,
-            essential: true
-        });
-    });
+    function zoomToMarker(index) {
+        if (markers[index]) {
+            var lngLat = markers[index].getLngLat();
+            map.flyTo({
+                center: lngLat,
+                zoom: 25,
+                essential: true
+            });
+        } else {
+            console.error("Marker mit Index", index, "nicht gefunden.");
+        }
+    }
 }

@@ -18,9 +18,20 @@ class Geocoding:
 
     #initialise the class and load the key from the json (to pretect the key)
     def __init__(self):
-        with open('token.json') as f:
-            data = json.load(f)
-            self.api_key = data['api_key']
+       self.api_key = None
+
+    def load_api_key(self):
+        if not self.api_key:
+            try:
+                with open('token.json') as f:
+                    data = json.load(f)
+                    self.api_key = data.get('api_key')
+                    if not self.api_key:
+                        raise ValueError("API key not found in the token.json file.")
+            except FileNotFoundError:
+                print("token.json file not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
 
     #function for returning coordinates
     def get_coordinates(self, region_name):
