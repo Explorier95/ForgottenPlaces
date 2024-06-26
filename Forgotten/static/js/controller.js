@@ -10,44 +10,44 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM geladen");
 
-    //load token from the json
+    // Laden des Mapbox Access Tokens
     fetch('/static/js/token.json')
         .then(response => response.json())
         .then(config => {
             mapboxgl.accessToken = config.token;
-            initializeMap();
+            initializeMap(); // Karte initialisieren
         })
         .catch(error => console.log(error));
 
-// function to inititalize the whole map
-function initializeMap() {
-    map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [13.40, 52.52],
-        zoom: 6,
-    });
+    // Funktion zur Initialisierung der Karte
+    function initializeMap() {
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [13.40, 52.52],
+            zoom: 6
+        });
 
-    // change view from satellite to streetview
-    const layerList = document.getElementById('menu');
-    if (layerList) {
-        const inputs = layerList.getElementsByTagName('input');
-        for (const input of inputs) {
-            input.onclick = (layer) => {
-                const layerId = layer.target.id;
-                map.setStyle('mapbox://styles/mapbox/' + layerId);
-            };
+        // Wechsel der Ansicht von Satellit zu Straßenansicht
+        const layerList = document.getElementById('menu');
+        if (layerList) {
+            const inputs = layerList.getElementsByTagName('input');
+            for (const input of inputs) {
+                input.onclick = (layer) => {
+                    const layerId = layer.target.id;
+                    map.setStyle('mapbox://styles/mapbox/' + layerId);
+                };
+            }
         }
-    }
 
-    // put markers for places on the map via coordinates
-    var places = document.querySelectorAll('.place-item');
-    if (places.length > 0) {
+        // Platzieren von Markern für Orte auf der Karte basierend auf Koordinaten
+        var places = document.querySelectorAll('.place-item');
         places.forEach(function (pl) {
+            var id = pl.getAttribute('id');
             var name = pl.getAttribute('data-name');
             var longitude = parseFloat(pl.getAttribute('data-lon'));
             var latitude = parseFloat(pl.getAttribute('data-lat'));
-            var placeId = pl.getAttribute('id');
+            var placeId = pl.getAttribute('data-id');
 
             console.log('Marker hinzufügen für:', name, longitude, latitude);
 
@@ -57,61 +57,56 @@ function initializeMap() {
                     .setPopup(new mapboxgl.Popup().setText(name))
                     .addTo(map);
 
-                //add to array
-                markers.push({marker: marker, placeId: placeId});
-
+                var clickCount = 0;
+                //clicking the marker
                 marker.getElement().addEventListener('click', function () {
-                    console.log("marker clicked: ", marker);
-                    localStorage.setItem('scrollToPlaceId', placeId);
-                    window.location.href = '/places/';
+                    console.log("Marker geklickt: ", marker);
 
+                    clickCount++;
+
+                    if (clickCount === 2) {
+                        localStorage.setItem('scrollToPlaceId', placeId);
+                        console.log('hallo : scrollToPlaceId', placeId);
+                        window.location.href = '/places/';
+                        clickCount = 0;
+                    }
                 });
             }
         });
 
-        function showToast(name) {
-            // toast dialoge fürs debuugging
-            alert('Marker geklickt: ' + name);
+        // Nach dem Laden der Seite, zu einem bestimmten Ort scrollen, wenn nötig
+
+            var placeId = localStorage.getItem('scrollToPlaceId');
+            if (placeId) {
+                setTimeout(function () {
+                    var element = document.getElementById(placeId);
+                    if (element) {
+                        element.scrollIntoView({behavior: 'smooth', block: 'end'});
+                        localStorage.removeItem('scrollToPlaceId');
+                    }
+                }, 1000);
+            }
         }
 
-        var placeId = localStorage.getItem('scrollToPlaceId');
-        if (placeId) {
-            setTimeout(function () {
-                var element = document.getElementById(placeId);
-                if (element) {
-                    element.scrollIntoView({behavior: 'smooth', block: 'end'});
-                    // Clear the stored place ID after scrolling
-                    localStorage.removeItem('scrollToPlaceId');
-                }
-            }, 1000);
-        }
+    // Event Listener für den Button zum Zoomen und Navigieren zur Karte
+    var flyButton = document.getElementById("flyButton");
+    if (flyButton) {
+        flyButton.addEventListener('click', function(event) {
+            event.preventDefault();
 
+            var lon = parseFloat(flyButton.getAttribute('data-lon'));
+            var lat = parseFloat(flyButton.getAttribute('data-lat'));
 
-    var zoomButtons = document.querySelectorAll('.flyButton');
-    zoomButtons.forEach(function (button) {
-    // Hier kannst du Aktionen für jedes 'button' Element durchführen
-    button.addEventListener('click', function(event) {
-        // Beispiel: Klick-Ereignis hinzufügen
-        event.preventDefault();
-        console.log('Button geklickt:', button.textContent);
-    });
-
-    var lon = parseFloat(button.getAttribute('data-lon'));
-    var lat = parseFloat(button.getAttribute('data-lat'));
-    console.log('Name:', name, 'Longitude:', lon, 'Latitude:', lat);
-                if (!isNaN(lon) && !isNaN(lat)) {
-                    map.flyTo({
-                        center: [lon, lat],
-                        zoom: 25,
-                        essential: true
-                    });
-                }
-            });
-
+            if (!isNaN(lon) && !isNaN(lat)) {
+                map.flyTo({
+                    center: [lon, lat],
+                    zoom: 12,
+                    essential: true
+                });
+            }
+        });
     }
-}
 });
-
 
 //TODO vielleicht hier mit json arbeiten oder daten nur in sitzung speichern oder so ?
 
