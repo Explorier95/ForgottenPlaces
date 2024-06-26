@@ -16,6 +16,7 @@ import json
 import requests
 from geopy.geocoders import Nominatim
 
+
 # gibt die List-Elemente aus
 @login_required()
 def get_place_list(request):
@@ -119,9 +120,10 @@ class MapView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['mapbox_access_token'] = 'pk.my_mapbox_access_token'
         context['places'] = Places.objects.all()
+
         return context
 
     def map_view(request):
         places = Places.objects.all()
         return render(request, 'map.html')
-                   #   {'places:' places})
+        #   {'places:' places})

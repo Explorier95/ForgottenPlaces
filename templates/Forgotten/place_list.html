@@ -8,13 +8,13 @@
             <h2 class="bg-secondary me-5 text-white text-center">{{ place.name }}</h2>
             <li class="list-group-item me-5 reverse"><p> Geschichte: </p>{{ place.story_field }}</li>
             <li class="list-group-item me-5 bg-light text-dark"><p> Bilder: </p><img
-                    src="{{ place.upload_picture.url }}" width="500px"
+                    src="{{ place.upload_picture.url }}" width="500px" class="img-fluid"
                     alt="img"></li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
-            <li class="list-group-item me-5 bg-light text-dark">
-                <a href="{% url 'map' %}" id="flyButton"  data-name="{{ place.name }}" data-lon="{{ place.longitude }}"
-               data-lat="{{ place.latitude }}"
-                   class="btn btn-success float-end btn-sm">Auf Karte anzeigen</a>
+            <li class="list-group-item me-5 bg-light text-dark ">
+                <a href="{% url 'map' %}" class="btn btn-success float-end btn-sm flyButton">
+                    Auf Karte anzeigen 
+                </a>
             </li>
             <li class="list-group-item me-5 bg-light text-dark">
                 <a href="{% url 'edit_place' pk=place.id %}" class="btn btn-primary">Bearbeiten</a>
@@ -31,9 +31,11 @@
                 </div>
         
                 <div class="place-item" 
-                    data-name="{{ place.name }}" 
-                    data-lon="{{ place.longitude }}" 
-                    data-lat="{{ place.latitude }}" 
+                     id="place-item-{{ place.id }}"
+                     data-name="{{ place.name }}" 
+                     data-lon="{{ place.longitude }}" 
+                     data-lat="{{ place.latitude }}" 
+                     data-id="{{ place.id }}"
                     style="display:none;">
                 </div>
         
