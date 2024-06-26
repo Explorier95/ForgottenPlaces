@@ -4,16 +4,18 @@
 {% block content %}
     {% for place in Places %}
         <ul class="list-group ms-5" id="place-{{ place.id }}">
-
             <h2 class="bg-secondary me-5 text-white text-center">{{ place.name }}</h2>
             <li class="list-group-item me-5 reverse"><p> Geschichte: </p>{{ place.story_field }}</li>
-            <li class="list-group-item me-5 bg-light text-dark"><p> Bilder: </p><img
-                    src="{{ place.upload_picture.url }}" width="500px" class="img-fluid"
-                    alt="img"></li>
+            <li class="list-group-item me-5 bg-light text-dark"><p> Bilder: </p>
+                {% if place.upload_picture.url != null %}<img
+                        src="{{ place.upload_picture.url }}" width="500px" class="img-fluid"
+                        alt="img"> {% else %} <img
+                        src={% static 'immages/PlaceHolder_wuff.png' %} width="500px" class="img-fluid"
+                        alt="img">   {% endif %}</li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
-            <li class="list-group-item me-5 bg-light text-dark ">
+{#            <li class="list-group-item me-5 bg-light text-dark "> <p>{{ place.uptime }}</p>#}
                 <a href="{% url 'map' %}" class="btn btn-success float-end btn-sm flyButton">
-                    Auf Karte anzeigen 
+                    Auf Karte anzeigen
                 </a>
             </li>
             <li class="list-group-item me-5 bg-light text-dark">
@@ -23,24 +25,24 @@
             </li>
 
         </ul>
-        
-        
+
+
         <!-- Hiding elements for javascript and getting markers on the map -->
-                <div id="mapContainer" style="display: none;">
-                    <div id="map"></div>
-                </div>
-        
-                <div class="place-item" 
-                     id="place-item-{{ place.id }}"
-                     data-name="{{ place.name }}" 
-                     data-lon="{{ place.longitude }}" 
-                     data-lat="{{ place.latitude }}" 
-                     data-id="{{ place.id }}"
-                    style="display:none;">
-                </div>
-        
-            {% endfor %}
-        <div class="list-group text-center ms-5 me-5">
+        <div id="mapContainer" style="display: none;">
+            <div id="map"></div>
+        </div>
+
+        <div class="place-item"
+             id="place-item-{{ place.id }}"
+             data-name="{{ place.name }}"
+             data-lon="{{ place.longitude }}"
+             data-lat="{{ place.latitude }}"
+             data-id="{{ place.id }}"
+             style="display:none;">
+        </div>
+
+    {% endfor %}
+    <div class="list-group text-center ms-5 me-5">
         <a class="btn btn-primary" href="{% url 'add_places' %}" class="btn btn-primary">Ort hinzufügen </a>
     </div>
 {% endblock %}
