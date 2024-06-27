@@ -4,15 +4,18 @@ from django.db import models
 from django.db import models
 
 
-# Create your models here.
+# Für das spätere verbinden von Orten zu Accounts
 class Account(models.Model):
-    name = models.CharField(max_length=30)
-    email = models.EmailField(blank=True)
+    Places = models.ForeignKey(
+        "Places",
+        on_delete=models.CASCADE,
+    )
+
 
     def __str__(self):
         return self.name
 
-
+#Places model für die ansicht von Orten
 class Places(models.Model):
     class Meta:
         verbose_name_plural = 'Places'
@@ -36,7 +39,7 @@ class Places(models.Model):
         # a_string = ', '.join([f'a.name'] for a in self.accounts.all())
         return f'Ort: {self.name}'
 
-
+#Admin
 class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
