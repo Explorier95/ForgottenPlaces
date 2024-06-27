@@ -17,6 +17,9 @@ import json
 import requests
 from geopy.geocoders import Nominatim
 
+# Willkommensbildschirm wenn man den Root aufruft
+def get_first_view(request):
+    return render(request, 'Forgotten/welcome_screen.html', {'page_title': 'Forgotten Places'})
 
 # gibt die List-Elemente aus
 @login_required()
@@ -24,15 +27,20 @@ def get_place_list(request):
     places = Places.objects.all().order_by('name')
 
     return render(request, 'Forgotten/place_list.html', {'page_title': ' Forgotten Places',
+
                                                          'Places': places, })
+#gibt die Profildaten
+@login_required()
+def get_profile(request):
+    return render(request, 'Forgotten/profile.html', {'page_title': 'Profildaten'})
 
-
+#logout funktionalität
 def logout_view(request):
     logout(request)
     messages.success(request, 'Abgemeldet')
     return HttpResponseRedirect(reverse_lazy('login'))
 
-
+#Funktion für das erstellen und bearbeiten von Orten
 def register_user(request):
     form = UserCreationForm(request.POST or None)
     if request.method == "POST":
@@ -47,11 +55,6 @@ def register_user(request):
         else:
             form = UserCreationForm()
     return render(request, 'Forgotten/register_user.html', {'form': form})
-
-
-# Willkommensbildschirm wenn man den Root aufruft
-def get_first_view(request):
-    return render(request, 'Forgotten/welcome_screen.html', {'page_title': 'Forgotten Places'})
 
 
 # Funktion zum direkten Löschen von List-Elementen
@@ -91,7 +94,7 @@ def place_details(request, pk=None):
 
 
 # Theoretisch unsicher sollte man die PK,s
-# wissen nach alternativlösung suchen damit @login_required() eingesetzt werden kann
+# wissen nach alternativlösung suchen damit @login_required() eingesetzt werden kann (Classbased)
 class PlaceDelete(DeleteView):
     model = Places
     context_object_name = 'place'
@@ -112,11 +115,11 @@ class PlaceDelete(DeleteView):
     #         return super(PlaceUpdate, self).form_valid(form)
 
 
-# Class for the Map view
+# Klasse für die Map
 class MapView(TemplateView):
     template_name = 'Forgotten/map.html'
 
-    # function to show the map in the browser
+    # Funktion um die Karte im browser anzuzeigen
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mapbox_access_token'] = settings.MAPBOX_KEY

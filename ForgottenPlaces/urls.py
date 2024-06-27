@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from Forgotten.views import get_place_list, place_details, PlaceDelete, get_first_view, logout_view, \
+from Forgotten.views import get_place_list, get_profile, place_details, PlaceDelete, get_first_view, logout_view, \
     register_user, get_mapbox_token  # place_delete
 from Forgotten.forms import UserLoginForm
 from django.contrib.auth import views
@@ -31,6 +31,7 @@ urlpatterns = [
                   # path('members/', include('members.urls')),
                   # path('members/', include('django.contrib.auth.urls')),
                   path('places/', get_place_list, name='place_list'),
+                  path('profile/', get_profile, name='profile'),
                   path('places/add/', place_details, name='add_places'),
                   path('places/edit/<int:pk>', place_details, name='edit_place'),
                   path('place/delete/<int:pk>/', PlaceDelete.as_view(), name='place-delete'),
