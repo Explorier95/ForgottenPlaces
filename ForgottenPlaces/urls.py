@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from Forgotten.views import get_place_list, place_details, PlaceDelete, get_first_view, logout_view, \
-    register_user  # place_delete
+    register_user, get_mapbox_token  # place_delete
 from Forgotten.forms import UserLoginForm
 from django.contrib.auth import views
 from django.contrib.auth.views import LogoutView
@@ -46,6 +46,7 @@ urlpatterns = [
                   path('regist/', register_user, name='register'),
 
                   path('map/', MapView.as_view(), name='map'),
+                  path('api/mapbox-token/', get_mapbox_token, name='get_mapbox_token')
                   # Wenn Update benötigt wird ...
                   # path('place/update/<int:pk>/', PlaceUpdate.as_view(), name='place-update'),
                   # URL zum direkten löschen

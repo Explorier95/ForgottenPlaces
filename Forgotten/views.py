@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.views.generic import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
-from django.http import HttpResponseRedirect, FileResponse
+from django.http import HttpResponseRedirect, FileResponse, JsonResponse
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 from Forgotten.models import *
 from Forgotten.forms import *
+from ForgottenPlaces import settings
 from .geocoding import Geocoding
 from .models import Places
 import json
@@ -118,12 +119,21 @@ class MapView(TemplateView):
     # function to show the map in the browser
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mapbox_access_token'] = 'pk.my_mapbox_access_token'
+        context['mapbox_access_token'] = settings.MAPBOX_KEY
         context['places'] = Places.objects.all()
-
         return context
 
-    def map_view(request):
-        places = Places.objects.all()
-        return render(request, 'map.html')
-        #   {'places:' places})
+
+def map_view(request):
+    places = Places.objects.all()
+    return render(request, 'Forgotten/map.html', {'places': places})
+
+
+def get_mapbox_token(request):
+    """
+    :param request:
+    :return:
+    method to hand the key to the javascript
+    """
+    token = settings.MAPBOX_KEY
+    return JsonResponse({'token': token})
