@@ -10,8 +10,8 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM geladen");
 
-    // Laden des Mapbox Access Tokens
-    fetch('/static/js/token.json')
+    //load the mapbox api token
+    fetch('/api/mapbox-token/')
         .then(response => response.json())
         .then(config => {
             mapboxgl.accessToken = config.token;
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-//TODO vielleicht hier mit json arbeiten oder daten nur in sitzung speichern oder so ?
+
 
 
 

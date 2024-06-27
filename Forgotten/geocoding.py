@@ -1,3 +1,4 @@
+from ForgottenPlaces import settings
 from .models import Places
 import json
 import requests
@@ -10,25 +11,21 @@ it uses the mapbox geocoding api
 """
 
 
-#TODO: security key noch in den token.json --> sichrheit !!! wichtig dann methode noch so dass es funktioniert
-# TODO: viewonmap button, marker müssen noch funzen, grüner button bei location, farben css
+#TODO:  --> sichrheit !!! wichtig dann methode noch so dass es funktioniert
+# TODO: viewonmap button, marker müssen noch funzen, farben css
 
 class Geocoding:
 
     #initialise the class and load the key from the json (to pretect the key)
     def __init__(self):
-       self.api_key = None
+       self.api_key = settings.MAPBOX_KEY
 
     def load_api_key(self):
         if not self.api_key:
             try:
-                with open('token.json') as f:
-                    data = json.load(f)
-                    self.api_key = data.get('api_key')
-                    if not self.api_key:
-                        raise ValueError("API key not found in the token.json file.")
-            except FileNotFoundError:
-                print("token.json file not found.")
+                self.api_key = settings.MAPBOX_KEY
+                if not self.api_key:
+                    raise ValueError("API key not found.")
             except Exception as e:
                 print(f"An error occurred: {e}")
 
@@ -66,10 +63,6 @@ def get_coordinates(region_name):
 
 
 geolocator = Nominatim(user_agent="my-application-custom")
-
-
-"""function to get latitude and 
-longitude from city names"""
 
 
 def region_to_city(region_name):
