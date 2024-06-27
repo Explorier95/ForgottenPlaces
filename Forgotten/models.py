@@ -20,8 +20,10 @@ class Places(models.Model):
 
     name = models.CharField(max_length=30)
     story_field = models.TextField(blank=True)
-    upload_picture = models.ImageField(upload_to='media/')
+    upload_picture = models.ImageField(null="True", blank="True", upload_to='media/')
     location_map = models.CharField(max_length=40)
+    ctime = models.DateTimeField(auto_now_add=True)
+    uptime = models.DateTimeField(auto_now=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 

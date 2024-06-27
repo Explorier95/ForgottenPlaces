@@ -27,11 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-il2&mrcuf1d9z)zvxodg1nzgrgxkbjg5d94+opgua-ur^l&fx8'
 
+# "token": "pk.eyJ1IjoiYWxpc3NhamIiLCJhIjoiY2x4bXpqYW5tMGRobTJpczY1ZmNzaTFlbSJ9.cGqpPHYr4ezHEYYkKxtAeA"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+"""
+debug mode = false --> allow host: port!
+"""
 
 
 # Application definition
@@ -57,8 +60,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-
-
 ]
 
 ROOT_URLCONF = 'ForgottenPlaces.urls'
