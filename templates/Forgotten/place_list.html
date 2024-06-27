@@ -14,13 +14,15 @@
                         alt="img">   {% endif %}</li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
 {#            <li class="list-group-item me-5 bg-light text-dark "> <p>{{ place.uptime }}</p>#}
-                <a href="{% url 'map' %}" class="btn btn-success float-end btn-sm flyButton">
-                    Auf Karte anzeigen
-                </a>
+                
             </li>
             <li class="list-group-item me-5 bg-light text-dark">
-                <a href="{% url 'edit_place' pk=place.id %}" class="btn btn-primary">Bearbeiten</a>
-                <a href="{% url 'place-delete' place.pk %}"><i class="btn btn-danger float-end">Löschen</i> </a>
+                
+                <a href="{% url 'edit_place' pk=place.id %}" class="btn btn-primary mx-auto">Bearbeiten</a>
+                <a href="{% url 'map' %}" class="btn btn-success mx-auto flyButton">
+                    Auf Karte anzeigen
+                </a>
+                <a href="{% url 'place-delete' place.pk %}"><i class="btn btn-danger mx-auto float-end">Löschen</i> </a>
 
             </li>
 
