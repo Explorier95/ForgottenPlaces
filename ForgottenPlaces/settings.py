@@ -32,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -96,6 +98,15 @@ engine: datenbank,
 host:
 user: username;
 password: password, 
+
+zugangsdaten nicht im sourcecode speichern sondern im bs 
+export postgres password im terminal 
+dann mit grep passw
+geht auch mit user 
+datei .env da kann man sie dann rausholen
+weitere lösung wäre secret manager
+aber zugangsdaten NIE in den quellcode reinschreiben 
+sql injections!!
 
 """
 

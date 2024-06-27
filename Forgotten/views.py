@@ -48,8 +48,13 @@ def register_user(request):
     return render(request, 'Forgotten/register_user.html', {'form': form})
 
 
-# Willkommensbildschirm wenn man den Root aufruft
+
 def get_first_view(request):
+    """
+    Welcome Screen when starting the application
+    :param request:
+    :return:
+    """
     return render(request, 'Forgotten/welcome_screen.html', {'page_title': 'Forgotten Places'})
 
 
@@ -62,6 +67,12 @@ def get_first_view(request):
 # Funktion zum Speichern von neuen List-Elementen
 @login_required()
 def place_details(request, pk=None):
+    """
+    Method to create new places and add them to the database
+    :param request:
+    :param pk:
+    :return:
+    """
     if pk:
         places = Places.objects.get(pk=pk)
     else:
@@ -89,9 +100,14 @@ def place_details(request, pk=None):
                                                             'form': form})
 
 
-# Theoretisch unsicher sollte man die PK,s
-# wissen nach alternativlösung suchen damit @login_required() eingesetzt werden kann
+
 class PlaceDelete(DeleteView):
+    """
+    Theoretisch unsicher sollte man die PK,s
+    wissen nach alternativlösung suchen damit @login_required()
+    eingesetzt werden kann
+    Method to delete the place from the database
+    """
     model = Places
     context_object_name = 'place'
     success_url = reverse_lazy('place_list')
@@ -111,12 +127,15 @@ class PlaceDelete(DeleteView):
     #         return super(PlaceUpdate, self).form_valid(form)
 
 
-# Class for the Map view
 class MapView(TemplateView):
     template_name = 'Forgotten/map.html'
 
-    # function to show the map in the browser
     def get_context_data(self, **kwargs):
+        """
+        Method to show the map in the browser via mapbox api
+        :param kwargs:
+        :return:
+        """
         context = super().get_context_data(**kwargs)
         context['mapbox_access_token'] = 'pk.my_mapbox_access_token'
         context['places'] = Places.objects.all()
@@ -124,6 +143,10 @@ class MapView(TemplateView):
         return context
 
     def map_view(request):
+        """
+        Method to show the map in the browser via mapbox api
+        :return:
+        """
         places = Places.objects.all()
         return render(request, 'map.html')
         #   {'places:' places})
