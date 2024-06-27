@@ -7,41 +7,43 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse
-from Forgotten.models import *
 from Forgotten.forms import *
 from ForgottenPlaces import settings
 from .geocoding import Geocoding
 from .models import Places
 import json
 import requests
-from geopy.geocoders import Nominatim
+
 
 # Willkommensbildschirm wenn man den Root aufruft
 def get_first_view(request):
     return render(request, 'Forgotten/welcome_screen.html', {'page_title': 'Forgotten Places'})
 
-# gibt die List-Elemente aus
+
 @login_required()
 def get_place_list(request):
+    # gibt die List-Elemente aus
     places = Places.objects.all().order_by('name')
 
     return render(request, 'Forgotten/place_list.html', {'page_title': ' Forgotten Places',
 
                                                          'Places': places, })
-#gibt die Profildaten
+
 @login_required()
 def get_profile(request):
+    # gibt die Profildaten
     return render(request, 'Forgotten/profile.html', {'page_title': 'Profildaten'})
 
-#logout funktionalität
+
 def logout_view(request):
+    # logout funktionalität
     logout(request)
     messages.success(request, 'Abgemeldet')
     return HttpResponseRedirect(reverse_lazy('login'))
 
-#Funktion für das erstellen und bearbeiten von Orten
+
 def register_user(request):
+    # Funktion für das erstellen und bearbeiten von Orten
     form = UserCreationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -63,9 +65,10 @@ def register_user(request):
 #     place.delete()
 #     return HttpResponseRedirect(reverse('place_list'))
 
-# Funktion zum Speichern von neuen List-Elementen
+
 @login_required()
 def place_details(request, pk=None):
+    # Funktion zum Speichern von neuen List-Elementen
     if pk:
         places = Places.objects.get(pk=pk)
     else:
@@ -101,6 +104,7 @@ class PlaceDelete(DeleteView):
     success_url = reverse_lazy('place_list')
 
     def form_valid(self, form):
+        #
         messages.success(self.request, "Der Ort wurde erfolgreich gelöscht.")
         return super(PlaceDelete, self).form_valid(form)
 
@@ -119,26 +123,27 @@ class PlaceDelete(DeleteView):
 class MapView(TemplateView):
     template_name = 'Forgotten/map.html'
 
-    # Funktion um die Karte im browser anzuzeigen
     def get_context_data(self, **kwargs):
+        # Methode um die Karte im Browser anzuzeigen
         context = super().get_context_data(**kwargs)
         context['mapbox_access_token'] = settings.MAPBOX_KEY
         context['places'] = Places.objects.all()
+        # Hinzufügen der Längen & Breitengrade, notwendig für Zoomen später
         context['lon'] = self.request.GET.get('lon', None)
         context['lat'] = self.request.GET.get('lat', None)
         return context
 
 
 def map_view(request):
+    # Funktion zur Anzeige der Karte im Browser
     places = Places.objects.all()
     return render(request, 'Forgotten/map.html', {'places': places})
 
 
 def get_mapbox_token(request):
     """
-    :param request:
-    :return:
-    method to hand the key to the javascript
+    Funktion die den Mapbox Key als Json zurück gibt damit er in
+    der JS Controller genutzt werden kann
     """
     token = settings.MAPBOX_KEY
     return JsonResponse({'token': token})

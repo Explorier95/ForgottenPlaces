@@ -1,13 +1,11 @@
-
-
 var map;
 var markers = [];
 
-// mapboxgl item initializing after dom loading
+// Inititalisieren der Mapbox - Map nach dem DOM laden
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM geladen");
 
-    //load the mapbox api token
+    //Laden des mapbox api token
     fetch('/api/mapbox-token/')
         .then(response => response.json())
         .then(config => {
@@ -16,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.log(error));
 
-        // initialize the map
+        // Initialisiere die Karte
         function initializeMap() {
         var map = new mapboxgl.Map({
             container: 'map',
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var lon = parseFloat(urlParams.get('lon'));
         var lat = parseFloat(urlParams.get('lat'));
 
-        // Zoom zur Positi
+        // Zoom zur Position wenn Koordinaten in der Url mitgegeben wurden
         if (!isNaN(lon) && !isNaN(lat)) {
             map.flyTo({
                 center: [lon, lat],
@@ -39,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Change from street to satellite view
+        // Ansicht wechseln von Satellit zu Streetview
         const layerList = document.getElementById('menu');
         if (layerList) {
             const inputs = layerList.getElementsByTagName('input');
@@ -51,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Set Markers for the list-elements on the map based on the coordinates
+        /// Setzen von Markern für die Listenelemente auf der Karte basierend auf den Koordinaten
         var places = document.querySelectorAll('.place-item');
         places.forEach(function (pl) {
             var id = pl.getAttribute('id');
@@ -69,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     .addTo(map);
 
                 var clickCount = 0;
-                //clicking the marker
+                // Erst nach doppeltem Klicken zurück zur List View
                 marker.getElement().addEventListener('click', function () {
                     console.log("Marker geklickt: ", marker);
 
@@ -85,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-            // scroll to place on list
+            // Zurück zur Liste
             var placeId = localStorage.getItem('scrollToPlaceId');
             if (placeId) {
                 setTimeout(function () {
@@ -97,9 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
             }
         }
-
-    // Event listener for the button to navigate to the map
-
 });
 
 

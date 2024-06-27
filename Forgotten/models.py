@@ -15,6 +15,7 @@ class Account(models.Model):
     def __str__(self):
         return self.name
 
+
 #Places model für die ansicht von Orten
 class Places(models.Model):
     class Meta:
