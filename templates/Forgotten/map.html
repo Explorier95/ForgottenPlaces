@@ -1,0 +1,24 @@
+{% extends 'Forgotten/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div id='map' style='width: 100%; height: 80%;'></div>
+
+<div id="menu">
+    <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" >
+    <label for="satellite-streets-v12">Satellite View</label>
+    <input id="streets-v12" type="radio" name="rtoggle" value="streets" checked="checked">
+    <label for="streets-v12">Street View</label>
+</div>
+
+{% for msg in messages %}
+    <div class="alert alert-{{ msg.tags }}">{{ msg }}</div>
+{% endfor %}
+
+{% for place in places %}
+    <div class="place-item" data-name="{{ place.name }}" data-lon="{{ place.longitude }}" data-lat="{{ place.latitude }}"></div>
+{% endfor %}
+{% endblock %}
