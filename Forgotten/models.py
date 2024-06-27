@@ -29,10 +29,6 @@ class Places(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
-    # for displaying on the map:
-    # longitude = models.FloatField()
-    # latitude = models.FloatField()
-    # TODO: Methode um von Stadtnamen auf longitude + latitude zu kommen
 
     def __str__(self):
         # Untenstehend eine Möglichkeit mehrere Bearbeiter (Account namen) mit Komma separiert hintereinander zu schreiben

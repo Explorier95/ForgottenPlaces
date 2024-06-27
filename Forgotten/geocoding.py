@@ -11,12 +11,9 @@ it uses the mapbox geocoding api
 """
 
 
-#TODO:  --> sichrheit !!! wichtig dann methode noch so dass es funktioniert
-# TODO: viewonmap button, marker müssen noch funzen, farben css
-
 class Geocoding:
 
-    #initialise the class and load the key from the json (to pretect the key)
+    #initialise the class and load the key from the json (to protect the key)
     def __init__(self):
        self.api_key = settings.MAPBOX_KEY
 
@@ -31,6 +28,12 @@ class Geocoding:
 
     #function for returning coordinates
     def get_coordinates(self, region_name):
+        """
+        This function is using the mapbox geocoding api to get latitude and longitude
+        from the places
+        :param region_name:
+        :return:
+        """
         url = f'https://api.mapbox.com/geocoding/v5/mapbox.places/{region_name}.json'
         params = {
             'access_token': self.api_key,
@@ -63,41 +66,6 @@ def get_coordinates(region_name):
 
 
 geolocator = Nominatim(user_agent="my-application-custom")
-
-
-def region_to_city(region_name):
-    #region and capitals in germany
-    region_capitals = {
-        'Baden-Württemberg': 'Stuttgart',
-        'Bayern': 'München',
-        'Berlin': 'Berlin',
-        'Brandenburg': 'Potsdam',
-        'Bremen': 'Bremen',
-        'Hamburg': 'Hamburg',
-        'Hessen': 'Wiesbaden',
-        'Mecklenburg-Vorpommern': 'Schwerin',
-        'Niedersachsen': 'Hannover',
-        'Nordrhein-Westfalen': 'Düsseldorf',
-        'Rheinland-Pfalz': 'Mainz',
-        'Sachsen': 'Dresden',
-        'Sachsen-Anhalt': 'Magdeburg',
-        'Schleswig-Holstein': 'Kiel',
-        'Saarland': 'Saarbrücken',
-        'Thüringen': 'Erfurt',
-    }
-
-    if region_name in region_capitals:
-        capital_city = region_capitals[region_name]
-        try:
-            location = geolocator.geocode(capital_city)
-            if location:
-                return location.latitude, location.longitude
-            else:
-                print("Keine Koordinaten gefunden - bitte Bundesland in D angeben")
-                return None, None
-        except Exception as e:
-            print(f'Fehler beim geocoding: {e}')
-            return None, None
 
 
 def update_coordinates_for_all_places():
