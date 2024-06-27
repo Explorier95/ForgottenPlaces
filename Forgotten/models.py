@@ -6,11 +6,12 @@ from django.db import models
 
 # Für das spätere verbinden von Orten zu Accounts
 class Account(models.Model):
-    Places = models.ForeignKey(
+    place = models.ForeignKey(
         "Places",
         on_delete=models.CASCADE,
+        null=True,
+        related_name='accounts'
     )
-
 
     def __str__(self):
         return self.name
