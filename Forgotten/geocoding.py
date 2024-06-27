@@ -4,20 +4,21 @@ import json
 import requests
 from geopy.geocoders import Nominatim
 
+
 """
-class for geocoding 
-the main function of this class is to return latitude and longitude from city names
-it uses the mapbox geocoding api 
+Klasse für das Laden der Mapbox sowie das Geocoding
+um Orte in Koordinaten zu berechnen
 """
 
 
 class Geocoding:
 
-    #initialise the class and load the key from the json (to protect the key)
     def __init__(self):
-       self.api_key = settings.MAPBOX_KEY
+        # Initialisierung der Klasse
+        self.api_key = settings.MAPBOX_KEY
 
     def load_api_key(self):
+        # Laden des API-Schlüssels
         if not self.api_key:
             try:
                 self.api_key = settings.MAPBOX_KEY
@@ -26,11 +27,10 @@ class Geocoding:
             except Exception as e:
                 print(f"An error occurred: {e}")
 
-    #function for returning coordinates
     def get_coordinates(self, region_name):
         """
-        This function is using the mapbox geocoding api to get latitude and longitude
-        from the places
+        Diese Funktion verwendet die Mapbox Geocoding APi
+        um Längen- und Breitengrade für Orte abzurufen
         :param region_name:
         :return:
         """
@@ -50,7 +50,15 @@ class Geocoding:
             return None
 
 
+"""
 def get_coordinates(region_name):
+    
+    Diese Funktion berechnet ebenfalls die Koordinaten sie nutzt dafür
+    aber die Nominatim Open Source und nicht mapbox
+    (eventuell für spätere Implementierungen angedacht)
+    :param region_name:
+    :return:
+    
     geolocator = Nominatim(user_agent="my-application-custom")
     try:
         location = geolocator.geocode(region_name)
@@ -66,43 +74,27 @@ def get_coordinates(region_name):
 
 
 geolocator = Nominatim(user_agent="my-application-custom")
+"""
 
 
-def update_coordinates_for_all_places():
+def update_coordinates():
+    """
+    Diese Funktion speichert die Location und updated die Orte
+    mit den zuvor berechneten Daten
+    :return:
+    """
+    geocoder = Geocoding()
     places = Places.objects.all()
     for place in places:
         if place.location_map and (not place.latitude or not place.longitude):
-            location = geolocator.geocode(place.location_map)
-            if location:
-                place.latitude = location.latitude
-                place.longitude = location.longitude
+            coordinates_mapbox = geocoder.get_coordinates(place.location_map)
+            if coordinates_mapbox:
+                place.latitude = coordinates_mapbox[1]
+                place.longitude = coordinates_mapbox[0]
                 place.save()
                 print(f"Updated: {place.name} -> {place.latitude}, {place.longitude}")
             else:
                 print(f"Koordinaten nicht gefunden: {place.location_map}")
 
 
-update_coordinates_for_all_places()
-
-
-def calculate_and_save_coordinates(places):
-    places_with_coordinates = []
-
-    for place in places:
-        if place.location_map:
-            lat, lon = get_coordinates(place.location_map)
-            if lat and lon:
-                place.latitude = lat
-                place.longitude = lon
-                place.save()
-                places_with_coordinates.append({
-                    'id': place.id,
-                    'name': place.name,
-                    'latitude': lat,
-                    'longitude': lon
-                })
-            else:
-                print(f"Koordinaten nicht gefunden für: {place.location_map}")
-
-    with open('places_coordinates.json', 'w') as f:
-        json.dump(places_with_coordinates, f, indent=4)
+update_coordinates()
