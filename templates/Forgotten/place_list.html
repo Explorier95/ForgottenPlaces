@@ -7,14 +7,14 @@
             <h2 class="bg-secondary me-5 text-white text-center">{{ place.name }}</h2>
             <li class="list-group-item me-5 reverse"><p> Geschichte: </p>{{ place.story_field }}</li>
             <li class="list-group-item me-5 bg-light text-dark"><p> Bilder: </p>
-                {% if place.upload_picture.url != null %}<img
+                {% if place.upload_picture.url != null %} <img
                         src="{{ place.upload_picture.url }}" width="500px" class="img-fluid"
                         alt="img"> {% else %} <img
                         src={% static 'immages/PlaceHolder_wuff.png' %} width="500px" class="img-fluid"
                         alt="img">   {% endif %}</li>
             <li class="list-group-item me-5"><p> Location: </p>{{ place.location_map }}</li>
 {#            <li class="list-group-item me-5 bg-light text-dark "> <p>{{ place.uptime }}</p>#}
-                
+            <li class="list-group-item  me-5"><p> Erstellt am: {{ place.ctime }}<br> Zuletzt bearbeitet am: {{ place.uptime }}</p></li>
             </li>
             <li class="list-group-item me-5 bg-light text-dark">
                 
