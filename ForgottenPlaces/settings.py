@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+
+# load environment variables from.env file
+load_dotenv()
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
@@ -25,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-il2&mrcuf1d9z)zvxodg1nzgrgxkbjg5d94+opgua-ur^l&fx8'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 MAPBOX_KEY = os.getenv('MAPBOX_KEY')
 
