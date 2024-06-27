@@ -1,8 +1,5 @@
-/*
-* js file
-* Fabian Tappendorf & Alissa Baumeister
-*
-* */
+
+
 var map;
 var markers = [];
 
@@ -19,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.log(error));
 
-    // Funktion zur Initialisierung der Karte
-    function initializeMap() {
+        // initialize the map
+        function initializeMap() {
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -28,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             zoom: 6
         });
 
-        // Wechsel der Ansicht von Satellit zu Straßenansicht
+        // Change from street to satellite view
         const layerList = document.getElementById('menu');
         if (layerList) {
             const inputs = layerList.getElementsByTagName('input');
@@ -40,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Platzieren von Markern für Orte auf der Karte basierend auf Koordinaten
+        // Set Markers for the list-elements on the map based on the coordinates
         var places = document.querySelectorAll('.place-item');
         places.forEach(function (pl) {
             var id = pl.getAttribute('id');
@@ -74,8 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Nach dem Laden der Seite, zu einem bestimmten Ort scrollen, wenn nötig
-
+            // scroll to place on list
             var placeId = localStorage.getItem('scrollToPlaceId');
             if (placeId) {
                 setTimeout(function () {
@@ -88,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-    // Event Listener für den Button zum Zoomen und Navigieren zur Karte
+    // Event listener for the button to navigate to the map
     var flyButton = document.getElementById("flyButton");
     if (flyButton) {
         flyButton.addEventListener('click', function(event) {
