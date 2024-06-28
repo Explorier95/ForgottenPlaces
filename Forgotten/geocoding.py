@@ -5,13 +5,11 @@ import requests
 from geopy.geocoders import Nominatim
 
 
-"""
-Klasse für das Laden der Mapbox sowie das Geocoding
-um Orte in Koordinaten zu berechnen
-"""
-
-
 class Geocoding:
+    """
+    Klasse für das Laden der Mapbox sowie das Geocoding
+    um Orte in Koordinaten zu berechnen
+    """
 
     def __init__(self):
         # Initialisierung der Klasse
@@ -31,8 +29,6 @@ class Geocoding:
         """
         Diese Funktion verwendet die Mapbox Geocoding APi
         um Längen- und Breitengrade für Orte abzurufen
-        :param region_name:
-        :return:
         """
         url = f'https://api.mapbox.com/geocoding/v5/mapbox.places/{region_name}.json'
         params = {
@@ -52,12 +48,9 @@ class Geocoding:
 
 """
 def get_coordinates(region_name):
-    
     Diese Funktion berechnet ebenfalls die Koordinaten sie nutzt dafür
     aber die Nominatim Open Source und nicht mapbox
     (eventuell für spätere Implementierungen angedacht)
-    :param region_name:
-    :return:
     
     geolocator = Nominatim(user_agent="my-application-custom")
     try:
@@ -81,7 +74,6 @@ def update_coordinates():
     """
     Diese Funktion speichert die Location und updated die Orte
     mit den zuvor berechneten Daten
-    :return:
     """
     geocoder = Geocoding()
     places = Places.objects.all()

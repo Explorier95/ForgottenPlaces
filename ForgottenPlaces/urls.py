@@ -25,6 +25,7 @@ from django.contrib.auth.views import LogoutView
 from django.conf.urls import include
 from Forgotten.views import MapView
 
+# Urls für die verschiedenen Seiten und Views
 urlpatterns = [
                   path('', get_first_view, name='welcome'),
                   path('admin/', admin.site.urls),

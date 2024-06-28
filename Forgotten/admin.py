@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Forgotten.models import*
+from Forgotten.models import *
 
 # Register your models here.
 
