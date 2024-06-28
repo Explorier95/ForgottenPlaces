@@ -1,4 +1,7 @@
-Authors of this project
+Authors of this project:
 
-Fabian Tappendorf
-Alissa Baumeister
+Fabian Tappendorf (357737)
+fabian.tappendorf@stud.th-luebeck.de
+
+Alissa Baumeister (358891)
+alissa.baumeister@stud.th-luebeck.de
