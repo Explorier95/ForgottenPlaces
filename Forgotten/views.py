@@ -15,35 +15,34 @@ import json
 import requests
 
 
-# Willkommensbildschirm wenn man den Root aufruft
 def get_first_view(request):
+    """ Willkommensbildschirm wenn man den Root aufruft """
     return render(request, 'Forgotten/welcome_screen.html', {'page_title': 'Forgotten Places'})
 
 
 @login_required()
 def get_place_list(request):
-    # gibt die List-Elemente aus
+    """ Gibt die List-Elemente aus"""
     places = Places.objects.all().order_by('name')
 
-    return render(request, 'Forgotten/place_list.html', {'page_title': ' Forgotten Places',
-
-                                                         'Places': places, })
+    return render(request, 'Forgotten/place_list.html',
+                  {'page_title': ' Forgotten Places', 'Places': places, })
 
 @login_required()
 def get_profile(request):
-    # gibt die Profildaten
+    """ gibt die Profildaten aus """
     return render(request, 'Forgotten/profile.html', {'page_title': 'Profildaten'})
 
 
 def logout_view(request):
-    # logout funktionalität
+    """ logout funktionalität """
     logout(request)
     messages.success(request, 'Abgemeldet')
     return HttpResponseRedirect(reverse_lazy('login'))
 
 
 def register_user(request):
-    # Funktion für das erstellen und bearbeiten von Orten
+    """ Funktion für das erstellen und bearbeiten von Orten """
     form = UserCreationForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -59,16 +58,9 @@ def register_user(request):
     return render(request, 'Forgotten/register_user.html', {'form': form})
 
 
-# Funktion zum direkten Löschen von List-Elementen
-# def place_delete(request, pk=None):
-#     place = Places.objects.get(pk=pk)
-#     place.delete()
-#     return HttpResponseRedirect(reverse('place_list'))
-
-
 @login_required()
 def place_details(request, pk=None):
-    # Funktion zum Speichern von neuen List-Elementen
+    """ Funktion zum Speichern von neuen List-Elementen """
     if pk:
         places = Places.objects.get(pk=pk)
     else:
@@ -96,35 +88,24 @@ def place_details(request, pk=None):
                                                             'form': form})
 
 
-# Theoretisch unsicher sollte man die PK,s
-# wissen nach alternativlösung suchen damit @login_required() eingesetzt werden kann (Classbased)
 class PlaceDelete(DeleteView):
+    """ Klasse um Orte wieder löschen zu können. """
     model = Places
     context_object_name = 'place'
     success_url = reverse_lazy('place_list')
 
     def form_valid(self, form):
-        #
+        """ Erfolgsnachricht falls es geklappt hat"""
         messages.success(self.request, "Der Ort wurde erfolgreich gelöscht.")
         return super(PlaceDelete, self).form_valid(form)
 
-    # Wenn Update benötigt wird ...
-    # class PlaceUpdate(UpdateView):
-    #     model = Places
-    #     fields = ['name', 'story_field', 'upload_picture', 'location_map']
-    #     success_url = reverse_lazy('place_list')
-    #
-    #     def form_valid(self, form):
-    #         messages.success(self.request, "Der Ort wurde erfolgreich aktualisiert.")
-    #         return super(PlaceUpdate, self).form_valid(form)
 
-
-# Klasse für die Map
 class MapView(TemplateView):
+    """ Klasse für das Anzeigen der Karte """
     template_name = 'Forgotten/map.html'
 
     def get_context_data(self, **kwargs):
-        # Methode um die Karte im Browser anzuzeigen
+        """ Methode um die Karte im Browser anzuzeigen """
         context = super().get_context_data(**kwargs)
         context['mapbox_access_token'] = settings.MAPBOX_KEY
         context['places'] = Places.objects.all()
@@ -135,7 +116,7 @@ class MapView(TemplateView):
 
 
 def map_view(request):
-    # Funktion zur Anzeige der Karte im Browser
+    """ Funktion zur Anzeige der Karte im Browser """
     places = Places.objects.all()
     return render(request, 'Forgotten/map.html', {'places': places})
 

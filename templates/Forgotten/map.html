@@ -2,11 +2,14 @@
 {% load static %}
 {% load bootstrap5 %}
 
+<!-- HTML File für die Karte-->
 {% block page_title %}{{ page_title }}{% endblock %}
 
 {% block content %}
-<div id='map' style='width: 100%; height: 80%;'></div>
-
+<div id='map' style='width: 100%; height: 80%;'>
+</div>
+    
+<!-- Radio Buttons um die Ansicht zu wechseln-->
 <div id="menu">
     <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" >
     <label for="satellite-streets-v12">Satellite View</label>

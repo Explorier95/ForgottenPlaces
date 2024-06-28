@@ -4,8 +4,10 @@ from django.db import models
 from django.db import models
 
 
-# Für das spätere verbinden von Orten zu Accounts
 class Account(models.Model):
+    """
+    Diese Klasse ist zuständig um später Orte und Accounts zu verbinden.
+    """
     place = models.ForeignKey(
         "Places",
         on_delete=models.CASCADE,
@@ -17,8 +19,11 @@ class Account(models.Model):
         return self.name
 
 
-#Places model für die ansicht von Orten
 class Places(models.Model):
+    """
+    Diese Klasse ermöglicht es später Orte mit Eigenschaften anzulegen
+    und diese dann in der Datenbank zu speichern.
+    """
     class Meta:
         verbose_name_plural = 'Places'
 
@@ -33,12 +38,16 @@ class Places(models.Model):
 
 
     def __str__(self):
-        # Untenstehend eine Möglichkeit mehrere Bearbeiter (Account namen) mit Komma separiert hintereinander zu schreiben
+        """
+        Untenstehend eine Möglichkeit mehrere Bearbeiter (Account namen)
+        mit Komma separiert hintereinander zu schreiben
         # a_string = ', '.join([f'a.name'] for a in self.accounts.all())
+        """
         return f'Ort: {self.name}'
 
-#Admin
+
 class Category(models.Model):
+    """ Klasse für den Admin. """
     class Meta:
         verbose_name_plural = 'Categories'
 

@@ -1,6 +1,9 @@
 {% extends 'Forgotten/base.html' %}
 {% load static %}
 
+<!--HTML File für das Anzeigen der Liste der Orte-->
+
+
 {% block content %}
     {% for place in Places %}
         <ul class="list-group ms-5" id="place-{{ place.id }}">
